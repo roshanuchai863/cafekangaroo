@@ -1,15 +1,23 @@
 import { StatusBar } from 'expo-status-bar';
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth"
 import { StyleSheet, Text, View } from 'react-native';
+import { getDatabase, ref, set } from "firebase/database";
+import { config } from './config/Config';
 
-export default function App() {
+const LotsOfStyles = () => {
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
 
+    <View style={styles.container}>
+      <signup />
+      {/* <Text>Click here for signup</Text>
+    <Text><button onClick={signup}>Click me</button></Text> */}
+    </View >
+  );
+};
+
+
+export default AccountCreate;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
