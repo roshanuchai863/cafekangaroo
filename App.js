@@ -9,9 +9,9 @@ const LotsOfStyles = () => {
   return (
 
     <View style={styles.container}>
-      <signup />
-      {/* <Text>Click here for signup</Text>
-    <Text><button onClick={signup}>Click me</button></Text> */}
+
+      <Text>Click here for signup</Text>
+      <Text><button onClick={signup}>Click me</button></Text>
     </View >
   );
 };
