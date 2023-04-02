@@ -1,6 +1,4 @@
-import { initializeApp } from "firebase/app"
-
-const firebaseConfig = {
+export const firebaseConfig = {
     apiKey: "AIzaSyBFd4wiXpAvYTUdQVrEv86_4nZwCTTcIFE",
     authDomain: "crossplatform-66185.firebaseapp.com",
     projectId: "crossplatform-66185",
@@ -10,4 +8,3 @@ const firebaseConfig = {
     databaseURL: "https://crossplatform-66185-default-rtdb.firebaseio.com"
 };
 
-export const config = initializeApp(firebaseConfig);
