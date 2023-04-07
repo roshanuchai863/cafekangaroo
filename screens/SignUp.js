@@ -43,7 +43,7 @@ export function SignUpScreen(props) {
             // navigate adds a back arrow to the header
             // navigation.navigate("Home")
             // reset will make "Home" the root page of the navigation
-            // navigation.reset({ index: 0, routes: [{ name: "Home" }] })
+            navigation.reset({ index: 0, routes: [{ name: "Home" }] })
         }
     }, [props.authStatus])
 
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
         borderColor: "#cccccc",
     },
     validInput: {
-        borderColor: "green",
+        borderColor: "D3D3D3",
         borderWidth: 1,
         backgroundColor: "#ffffff",
         padding: 5,
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
         textAlign: "center"
     },
     buttonDisabled: {
-        backgroundColor: "#666666",
+        backgroundColor: "#D3D3D3",
         padding: 10,
         marginVertical: 10,
     },
