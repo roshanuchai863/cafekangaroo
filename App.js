@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 import { HomeScreen } from './screens/HomeScreen';
 import { SignUpScreen } from './screens/SignUp';
 import { SignInScreen } from './screens/SignIn';
+
 //import { DetailScreen } from './screens/DetailScreen';
 // firebase modules
 import { firebaseConfig } from './config/Config';
@@ -30,6 +31,8 @@ import {
   where,
   onSnapshot
 } from 'firebase/firestore'
+import useNavigation from 'use-navigation';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -73,7 +76,9 @@ export default function App() {
   const SignOut = () => {
     signOut(FBauth)
       .then(() => {
-        //now the user is signed out
+        navigate("SignInScreen");
+        console.log("button click");
+        // Sign-out successful.
       })
       .catch((err) => console.log(error))
   }
@@ -101,10 +106,12 @@ export default function App() {
     })
   }
 
+
+
   const SignOutButton = (props) => {
     return (
-      <TouchableOpacity onPress={() => SignOut()}>
-        <Text>Sign Out</Text>
+      <TouchableOpacity >
+        <button onClick={() => SignOut()}>Sign Out</button>
       </TouchableOpacity>
     )
   }
@@ -121,11 +128,10 @@ export default function App() {
         <Stack.Screen name="Home" options={{ headerRight: () => <SignOutButton /> }}>
           {(props) => <HomeScreen {...props} authStatus={auth} add={AddData} data={noteData} />}
         </Stack.Screen>
-
       </Stack.Navigator>
     </NavigationContainer>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
