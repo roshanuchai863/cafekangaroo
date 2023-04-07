@@ -1,9 +1,16 @@
-import { View, Text, TouchableOpacity, Modal, TextInput, StyleSheet, FlatList } from "react-native"
+import { View, Text, TouchableOpacity, Modal, TextInput, StyleSheet, FlatList, Button } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import { useState, useEffect } from 'react'
+import { SignOutButton } from '../components/SignOutButton';
+import { AddItem } from "./AddItem";
+import React from 'react'
 
 
 export function HomeScreen(props) {
+    props.navigation
+
+
+
     const navigation = useNavigation()
 
     const [showModal, setShowModal] = useState(false)
@@ -51,57 +58,35 @@ export function HomeScreen(props) {
         )
     }
 
-    return (
-        <View style={styles.screen}>
-            {/* modal element */}
-            <Modal
-                transparent={false}
-                animationType="slide"
-                visible={showModal}
-                onRequestClose={() => setShowModal(false)}
-            >
-                <View style={styles.modal}>
-                    <Text style={styles.modalLabel}>Title</Text>
-                    <TextInput
-                        style={styles.modalInput}
-                        value={title}
-                        onChangeText={(val) => setTitle(val)}
-                    />
-                    <Text style={styles.modalLabel} >Note</Text>
-                    <TextInput
-                        multiline={true}
-                        style={styles.modalInput2}
-                        value={note}
-                        onChangeText={(val) => setNote(val)}
-                    />
-                    <View style={styles.buttonsRow}>
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={() => setShowModal(false)}
-                        >
-                            <Text style={styles.buttonText} >Close</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={styles.addButton}
-                            onPress={() => saveNote()}
-                        >
-                            <Text style={styles.buttonText}>Save</Text>
-                        </TouchableOpacity>
-                    </View>
 
-                </View>
-            </Modal>
-            {/* button to open modal */}
-            <TouchableOpacity style={styles.button} onPress={() => setShowModal(true)} >
-                <Text style={styles.buttonText}>Add Note</Text>
-            </TouchableOpacity>
-            <FlatList
-                data={props.data}
-                renderItem={({ item }) => (<ListItem title={item.title} id={item.id} content={item.content} />)}
-                keyExtractor={item => item.id}
-                ItemSeparatorComponent={ListItemSeparator}
-            />
+
+    const pressHandler = () => {
+        navigation.navigate('AddItems');
+        // navigation.push('AddItem');
+    }
+
+    return (
+
+
+
+        <View style={styles.screen}>
+
+            {/* <View>
+                <Text>Home Page</Text>
+                <SignOutButton text="Sign outssss" />
+            </View> */}
+
+
+            <Button title="click me here" onPress={pressHandler} ></Button>
+
+
+
+
+
         </View>
+
+
+
     )
 }
 

@@ -8,8 +8,9 @@ import { useState, useEffect } from 'react';
 import { HomeScreen } from './screens/HomeScreen';
 import { SignUpScreen } from './screens/SignUp';
 import { SignInScreen } from './screens/SignIn';
+import { SignOutButton } from './components/SignOutButton';
 
-//import { DetailScreen } from './screens/DetailScreen';
+
 // firebase modules
 import { firebaseConfig } from './config/Config';
 import { initializeApp } from 'firebase/app'
@@ -108,13 +109,6 @@ export default function App() {
 
 
 
-  const SignOutButton = (props) => {
-    return (
-      <TouchableOpacity >
-        <button onClick={() => SignOut()}>Sign Out</button>
-      </TouchableOpacity>
-    )
-  }
 
   return (
     <NavigationContainer>
@@ -125,9 +119,9 @@ export default function App() {
         <Stack.Screen name="Signin">
           {(props) => <SignInScreen {...props} handler={SignIn} authStatus={auth} />}
         </Stack.Screen>
-        <Stack.Screen name="Home" options={{ headerRight: () => <SignOutButton /> }}>
+        {<Stack.Screen name="Home" options={{ headerRight: () => <SignOutButton text="Sign out" /> }}>
           {(props) => <HomeScreen {...props} authStatus={auth} add={AddData} data={noteData} />}
-        </Stack.Screen>
+        </Stack.Screen>}
       </Stack.Navigator>
     </NavigationContainer>
   );
