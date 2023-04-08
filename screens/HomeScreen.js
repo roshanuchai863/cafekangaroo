@@ -60,14 +60,14 @@ export function HomeScreen(props) {
 
 
 
-    const Additemscreenj = () => {
+    const Additemscreen = () => {
         navigation.navigate('AddItem');
         // navigation.push('AddItem');
     }
 
     const editItemScreen = () => {
-        navigation.navigate('UploadScreen');
-        // navigation.push('AddItem');
+        navigation.navigate('EditItem');
+        // navigation.push('EditItem');
     }
 
     return (
