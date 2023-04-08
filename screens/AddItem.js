@@ -28,7 +28,7 @@ import {
 // }
 
 
-export function AddItem({ navigation }) {
+export function AddItemScreen(props) {
 
     const [itemName, setItemName] = useState("")
     const [itemDesc, setItemDesc] = useState("")

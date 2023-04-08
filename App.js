@@ -6,9 +6,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useState, useEffect } from 'react';
 // screens
 import { HomeScreen } from './screens/HomeScreen';
-import { SignUpScreen } from './screens/SignUp';
+import { SignUpScreen } from './screens/Signup';
 import { SignInScreen } from './screens/SignIn';
 import { SignOutButton } from './components/SignOutButton';
+import { AddItemScreen } from './screens/AddItem';
 
 
 // firebase modules
@@ -33,9 +34,11 @@ import {
   onSnapshot
 } from 'firebase/firestore'
 import useNavigation from 'use-navigation';
+import { AddItem } from './screens/AddItem';
 
 
 const Stack = createNativeStackNavigator();
+
 
 const FBapp = initializeApp(firebaseConfig)
 const FBauth = getAuth(FBapp)
@@ -84,6 +87,12 @@ export default function App() {
       .catch((err) => console.log(error))
   }
 
+  const AdditemScreen = () => {
+    navigation.navigate('AddItem');
+    // navigation.push('AddItem');
+  }
+
+
   const AddData = async (note) => {
     const userId = auth.uid
     const path = `users/${userId}/notes`
@@ -118,6 +127,9 @@ export default function App() {
         </Stack.Screen>
         <Stack.Screen name="Signin">
           {(props) => <SignInScreen {...props} handler={SignIn} authStatus={auth} />}
+        </Stack.Screen>
+        <Stack.Screen name="AddItem">
+          {(props) => <AddItemScreen {...props} handler={AddItemScreen} authStatus={auth} />}
         </Stack.Screen>
         {<Stack.Screen name="Home" options={{ headerRight: () => <SignOutButton text="Sign out" /> }}>
           {(props) => <HomeScreen {...props} authStatus={auth} add={AddData} data={noteData} />}

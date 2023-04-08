@@ -61,7 +61,7 @@ export function HomeScreen(props) {
 
 
     const pressHandler = () => {
-        navigation.navigate('AddItems');
+        navigation.navigate('AddItem');
         // navigation.push('AddItem');
     }
 
@@ -70,20 +70,15 @@ export function HomeScreen(props) {
 
 
         <View style={styles.screen}>
+            <Text>HI there</Text>
+            <TouchableOpacity
+                style={styles.signInLink}
+                title="signuy"
+                onPress={() => navigation.navigate("Signup")}
+            >
+            </TouchableOpacity>
 
-            {/* <View>
-                <Text>Home Page</Text>
-                <SignOutButton text="Sign outssss" />
-            </View> */}
-
-
-            <Button title="click me here" onPress={pressHandler} ></Button>
-
-
-
-
-
-        </View>
+        </View >
 
 
 
