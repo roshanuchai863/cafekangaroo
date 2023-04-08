@@ -54,19 +54,22 @@ export function SignInScreen(props) {
         <View style={styles.page}>
             <Text style={styles.title}>Sign in to your account</Text>
             <View style={styles.inputGroup}>
-                <Text>Email address</Text>
+                <Text>Email address </Text>
+                <Text>thakuriroshan863@gmail.com </Text>
+
                 <TextInput
                     style={styles.input}
-                    placeholder="you@domain.com"
+                    placeholder="you@domain.com "
                     value={email}
                     onChangeText={(emailText) => setEmail(emailText)}
                 />
             </View>
             <View style={styles.inputGroup}>
                 <Text>Password</Text>
+                <Text>thakuriroshan863</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="minimum 8 characters"
+                    placeholder="minimum 8 characters "
                     value={password}
                     onChangeText={(pwText) => setPassword(pwText)}
                     secureTextEntry={true}

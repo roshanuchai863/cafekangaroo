@@ -1,9 +1,9 @@
 import { View, Text, TouchableOpacity, Modal, TextInput, StyleSheet, FlatList, Button } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import { useState, useEffect } from 'react'
-import { SignOutButton } from '../components/SignOutButton';
-import { AddItem } from "./AddItem";
+import * as SignOutButton from "../components/SignOutButton";
 import React from 'react'
+import { getAuth, signOut } from "firebase/auth";
 
 
 export function HomeScreen(props) {
@@ -69,15 +69,19 @@ export function HomeScreen(props) {
 
 
 
-        <View style={styles.screen}>
-            <Text>HI there</Text>
-            <TouchableOpacity
-                style={styles.signInLink}
-                title="signuy"
-                onPress={() => navigation.navigate("Signup")}
-            >
-            </TouchableOpacity>
+        <View style={styles.screen} >
+            <Text style={styles.mainfont}>Work in progress......</Text>
+            <Text style={styles.modalInput}>
 
+                <ul style={styles.modalInput}>
+                    <li>Signup Page done!</li>
+                    <li>SignIn Page done!</li>
+                    <li>Add Item screen 90% done and still work in progress...</li>
+                    <li>Edit/delete/update screen work in progress...</li>
+                </ul>
+            </Text>
+            <SignOutButton.SignOutButton text="Sign out" />
+            TouchableOpacity
         </View >
 
 
@@ -97,9 +101,16 @@ const styles = StyleSheet.create({
         margin: 20,
         backgroundColor: "lightblue",
     },
+    mainfont: {
+        fontSize: 50,
+        color: "#ff0000",
+        textAlign: "center",
+    },
     modalInput: {
         fontSize: 18,
-        backgroundColor: "#ffffff",
+        color: "#ff0000",
+        textAlign: "left",
+        paddingLeft: 150,
     },
     modalInput2: {
         minHeight: 80,

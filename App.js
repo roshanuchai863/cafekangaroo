@@ -6,7 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useState, useEffect } from 'react';
 // screens
 import { HomeScreen } from './screens/HomeScreen';
-import { SignUpScreen } from './screens/Signup';
+import { SignUpScreen } from './screens/SignUp';
 import { SignInScreen } from './screens/SignIn';
 import { SignOutButton } from './components/SignOutButton';
 import { AddItemScreen } from './screens/AddItem';
@@ -76,13 +76,10 @@ export default function App() {
       .then((userCredential) => console.log(userCredential))
       .catch((error) => console.log(error))
   }
-
   const SignOut = () => {
     signOut(FBauth)
       .then(() => {
-        navigate("SignInScreen");
-        console.log("button click");
-        // Sign-out successful.
+        //now the user is signed out
       })
       .catch((err) => console.log(error))
   }
@@ -128,17 +125,18 @@ export default function App() {
         <Stack.Screen name="Signin">
           {(props) => <SignInScreen {...props} handler={SignIn} authStatus={auth} />}
         </Stack.Screen>
-        <Stack.Screen name="AddItem">
-          {(props) => <AddItemScreen {...props} handler={AddItemScreen} authStatus={auth} />}
-        </Stack.Screen>
-        {<Stack.Screen name="Home" options={{ headerRight: () => <SignOutButton text="Sign out" /> }}>
+
+        <Stack.Screen name="Home" options={{ headerRight: () => <SignOutButton title="sign out" /> }} >
           {(props) => <HomeScreen {...props} authStatus={auth} add={AddData} data={noteData} />}
-        </Stack.Screen>}
+        </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
+
+
+// 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -146,4 +144,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  SignoutButtonPosition: {
+    marginRight: 20,
+  },
+
 });
