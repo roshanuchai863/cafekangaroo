@@ -37,6 +37,7 @@ import useNavigation from 'use-navigation';
 import { AddItem } from './screens/AddItem';
 
 
+
 const Stack = createNativeStackNavigator();
 
 
@@ -90,6 +91,8 @@ export default function App() {
   }
 
 
+
+
   const AddData = async (note) => {
     const userId = auth.uid
     const path = `users/${userId}/notes`
@@ -129,6 +132,7 @@ export default function App() {
         <Stack.Screen name="AddItem">
           {(props) => <AddItemScreen {...props} handler={AdditemScreen} authStatus={auth} />}
         </Stack.Screen>
+
 
         <Stack.Screen name="Home" options={{ headerRight: () => <SignOutButton title="sign out" /> }} >
           {(props) => <HomeScreen {...props} authStatus={auth} add={AddData} data={noteData} />}

@@ -60,8 +60,13 @@ export function HomeScreen(props) {
 
 
 
-    const pressHandler = () => {
+    const Additemscreenj = () => {
         navigation.navigate('AddItem');
+        // navigation.push('AddItem');
+    }
+
+    const editItemScreen = () => {
+        navigation.navigate('UploadScreen');
         // navigation.push('AddItem');
     }
 
@@ -74,14 +79,23 @@ export function HomeScreen(props) {
 
             <SignOutButton.SignOutButton text="Sign out" />
             < TouchableOpacity
-
-                onPress={() => pressHandler()}
-
+                onPress={() => Additemscreen()}
             >
                 <Text>Add Item</Text>
 
 
             </TouchableOpacity>
+
+
+            < TouchableOpacity
+                onPress={() => editItemScreen()}
+            >
+                <Text>Edit Item</Text>
+
+
+            </TouchableOpacity>
+
+
         </View >
 
 

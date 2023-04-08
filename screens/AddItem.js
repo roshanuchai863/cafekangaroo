@@ -4,8 +4,6 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 
-import * as ImagePicker from 'expo-image-picker'
-import { firebase } from '../config'
 
 
 import {
@@ -31,8 +29,6 @@ export function AddItemScreen(props) {
 
 
 
-
-
     const navigation = useNavigation()
 
     const [itemName, setItemName] = useState("")
@@ -53,10 +49,9 @@ export function AddItemScreen(props) {
     }
 
     return (
+
+
         <View style={styles.page}>
-
-
-
 
             <View sytle={styles.itemposition}>
                 <Text sytle={styles.titleName}>Add item</Text>
