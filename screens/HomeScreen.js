@@ -71,15 +71,7 @@ export function HomeScreen(props) {
 
         <View style={styles.screen} >
             <Text style={styles.mainfont}>Work in progress......</Text>
-            <Text style={styles.modalInput}>
 
-                <ul style={styles.modalInput}>
-                    <li>Signup Page done!</li>
-                    <li>SignIn Page done!</li>
-                    <li>Add Item screen 90% done and still work in progress...</li>
-                    <li>Edit/delete/update screen work in progress...</li>
-                </ul>
-            </Text>
             <SignOutButton.SignOutButton text="Sign out" />
             < TouchableOpacity
 

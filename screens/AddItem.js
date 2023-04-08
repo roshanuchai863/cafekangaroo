@@ -4,7 +4,8 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 
-
+import * as ImagePicker from 'expo-image-picker'
+import { firebase } from '../config'
 
 
 import {
@@ -14,27 +15,25 @@ import {
     StyleSheet,
     TextInput,
     Alert,
+    Image,
+    SafeAreaView,
+    TouchableOpacity,
+    Button,
     getDatabase, ref, set
 } from 'react-native';
 // import database from '@react-native-firebase/database';
 
 
 
-// // send to db
-// function writeUserData(userId, Add_item, Item_Description, Item_Price) {
-//     const db = getDatabase();
-//     set(ref(db, 'Add_item/' + userId), {
-//         Add_item: itemName,
-//         Item_Description: itemDesc,
-//         Item_Price: itemPrice
-//     })
-// }
-
 
 export function AddItemScreen(props) {
 
-    const navigation = useNavigation()
 
+
+
+
+
+    const navigation = useNavigation()
 
     const [itemName, setItemName] = useState("")
     const [itemDesc, setItemDesc] = useState("")
@@ -54,43 +53,56 @@ export function AddItemScreen(props) {
     }
 
     return (
-        <View>
-            <View>
-                <Text>Add item</Text>
+        <View style={styles.page}>
+
+
+
+
+            <View sytle={styles.itemposition}>
+                <Text sytle={styles.titleName}>Add item</Text>
+
                 <TextInput
                     style={styles.input}
                     placeholder="item name"
                     value={itemName}
-                    onChangeText={(setItemName) => setEmail(setItemName)}
+                    onChangeText={(setItemNames) => setItemName(setItemNames)}
                 >
-
                 </TextInput>
-
             </View>
 
+
+
+
+
             {/* description */}
-            <View>
-                <Text>Item Description</Text>
+            <View sytle={styles.itemposition}>
+                <Text sytle={styles.titleName}>Item Description</Text>
                 <TextInput
-                    style={styles.input}
+                    style={styles.descriptionbox}
                     placeholder="item Description"
                     value={itemDesc}
-                    onChangeText={(setItemDesc) => setEmail(setItemDesc)}
+                    onChangeText={(setItemDescs) => setItemDesc(setItemDescs)}
                 >
                 </TextInput>
             </View>
 
 
             {/* price */}
-            <View>
-                <Text>Items Price</Text>
+            <View sytle={styles.itemposition}>
+                <Text sytle={styles.titleName}>Items Price</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="item Price"
                     value={itemPrice}
-                    onChangeText={(setItemPrice) => setEmail(setItemPrice)}
+                    onChangeText={(setItemPrices) => setItemPrice(setItemPrices)}
                 >
                 </TextInput>
+
+            </View>
+            <View style={styles.container}>
+
+                <Button title=" Cancel " style={styles.buttonContainer} />
+                <Button title="  Add  " style={styles.buttonContainer} />
 
             </View>
         </View>
@@ -99,17 +111,16 @@ export function AddItemScreen(props) {
 
 const styles = StyleSheet.create({
     page: {
-        marginHorizontal: 60,
+        marginRight: 60,
+        marginLeft: 60,
+        marginTop: 30,
     },
-    title: {
-        fontSize: 20,
-        textAlign: 'center',
-        marginTop: 20,
-    },
+
     input: {
         backgroundColor: "#ffffff",
         padding: 5,
         borderWidth: 1,
+        marginTop: 10,
         borderColor: "#cccccc",
     },
     validInput: {
@@ -121,24 +132,34 @@ const styles = StyleSheet.create({
     inputGroup: {
         marginVertical: 5,
     },
-    button: {
+    container: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 30,
+
+    },
+    buttonContainer: {
+        padding: 80,
+
+
+    },
+
+
+
+    itemposition:
+    {
+        alignContent: 'center',
         backgroundColor: "#000000",
-        padding: 10,
-        marginVertical: 10,
+        paddingTop: 20,
     },
-    buttonText: {
-        color: "#ffffff",
-        textAlign: "center"
+    descriptionbox: {
+        height: 100,
+        backgroundColor: "#ffffff",
+        padding: 5,
+        paddingTop: 2,
+        borderWidth: 1,
+        borderColor: "#cccccc",
+        marginTop: 10,
+
     },
-    buttonDisabled: {
-        backgroundColor: "#666666",
-        padding: 10,
-        marginVertical: 10,
-    },
-    signInLink: {
-        marginVertical: 5,
-    },
-    signInLinkText: {
-        textAlign: "center",
-    }
 })
