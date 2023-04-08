@@ -96,8 +96,8 @@ export function EditScreen(props) {
             </View>
             <View style={styles.container}>
 
-                <Button title=" Cancel " style={styles.buttonContainer} />
-                <Button title="  Add  " style={styles.buttonContainer} />
+                <Button title=" Update " style={styles.buttonContainer} />
+                <Button title="  Delete  " style={styles.buttonContainer} />
 
             </View>
         </View>

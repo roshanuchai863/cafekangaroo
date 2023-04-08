@@ -55,7 +55,7 @@ export function SignInScreen(props) {
             <Text style={styles.title}>Sign in to your account</Text>
             <View style={styles.inputGroup}>
                 <Text>Email address </Text>
-                <Text>thakuriroshan863@gmail.com </Text>
+                <Text>abcd@gmail.com </Text>
 
                 <TextInput
                     style={styles.input}
@@ -66,7 +66,7 @@ export function SignInScreen(props) {
             </View>
             <View style={styles.inputGroup}>
                 <Text>Password</Text>
-                <Text>thakuriroshan863</Text>
+                <Text>Password</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="minimum 8 characters "

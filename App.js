@@ -35,6 +35,7 @@ import {
 } from 'firebase/firestore'
 import useNavigation from 'use-navigation';
 import { AddItem } from './screens/AddItem';
+import { EditScreen } from './screens/EditItem';
 
 
 
@@ -91,6 +92,11 @@ export default function App() {
   }
 
 
+  const EditItemScreenNav = () => {
+    navigation.navigate('EditItem');
+    // navigation.push('AddItem');
+  }
+
 
 
   const AddData = async (note) => {
@@ -132,7 +138,9 @@ export default function App() {
         <Stack.Screen name="AddItem">
           {(props) => <AddItemScreen {...props} handler={AdditemScreen} authStatus={auth} />}
         </Stack.Screen>
-
+        <Stack.Screen name="EditItem">
+          {(props) => <EditScreen {...props} handler={EditItemScreenNav} authStatus={auth} />}
+        </Stack.Screen>
 
         <Stack.Screen name="Home" options={{ headerRight: () => <SignOutButton title="sign out" /> }} >
           {(props) => <HomeScreen {...props} authStatus={auth} add={AddData} data={noteData} />}
