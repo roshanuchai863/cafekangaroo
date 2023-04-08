@@ -1,7 +1,10 @@
 import { firebaseConfig } from '../config/Config';
+import React, { useState, useEffect } from 'react';
 import { initializeApp } from 'firebase/app';
 import { getAuth } from "firebase/auth";
-import React from 'react';
+import { useNavigation } from "@react-navigation/native";
+
+
 
 
 import {
@@ -30,18 +33,21 @@ import {
 
 export function AddItemScreen(props) {
 
+    const navigation = useNavigation()
+
+
     const [itemName, setItemName] = useState("")
     const [itemDesc, setItemDesc] = useState("")
     const [itemPrice, setItemPrice] = useState("")
 
+
     useEffect(() => {
-        if (authStatus) {
-            // navigate adds a back arrow to the header
-            // navigation.navigate("Home")
-            // reset will make "Home" the root page of the navigation
-            navigation.reset({ index: 0, routes: [{ name: "Home" }] })
+        if (!props.authStatus) {
+            navigation.reset({ index: 0, routes: [{ name: "Signin" }] })
         }
-    }, [authStatus])
+    }, [props.authStatus])
+
+
 
     const pressHandler = () => {
         navigation.navigate('');
@@ -90,3 +96,49 @@ export function AddItemScreen(props) {
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    page: {
+        marginHorizontal: 60,
+    },
+    title: {
+        fontSize: 20,
+        textAlign: 'center',
+        marginTop: 20,
+    },
+    input: {
+        backgroundColor: "#ffffff",
+        padding: 5,
+        borderWidth: 1,
+        borderColor: "#cccccc",
+    },
+    validInput: {
+        borderColor: "green",
+        borderWidth: 1,
+        backgroundColor: "#ffffff",
+        padding: 5,
+    },
+    inputGroup: {
+        marginVertical: 5,
+    },
+    button: {
+        backgroundColor: "#000000",
+        padding: 10,
+        marginVertical: 10,
+    },
+    buttonText: {
+        color: "#ffffff",
+        textAlign: "center"
+    },
+    buttonDisabled: {
+        backgroundColor: "#666666",
+        padding: 10,
+        marginVertical: 10,
+    },
+    signInLink: {
+        marginVertical: 5,
+    },
+    signInLinkText: {
+        textAlign: "center",
+    }
+})

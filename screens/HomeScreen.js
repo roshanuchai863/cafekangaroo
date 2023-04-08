@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Modal, TextInput, StyleSheet, FlatList, Button } from "react-native"
-import { useNavigation } from "@react-navigation/native"
+import { useNavigation } from "@react-navigation/native";
 import { useState, useEffect } from 'react'
 import * as SignOutButton from "../components/SignOutButton";
 import React from 'react'
@@ -7,11 +7,11 @@ import { getAuth, signOut } from "firebase/auth";
 
 
 export function HomeScreen(props) {
-    props.navigation
-
-
-
     const navigation = useNavigation()
+
+
+
+
 
     const [showModal, setShowModal] = useState(false)
     const [title, setTitle] = useState('')
@@ -81,7 +81,15 @@ export function HomeScreen(props) {
                 </ul>
             </Text>
             <SignOutButton.SignOutButton text="Sign out" />
-            TouchableOpacity
+            < TouchableOpacity
+
+                onPress={() => pressHandler()}
+
+            >
+                <Text>Add Item</Text>
+
+
+            </TouchableOpacity>
         </View >
 
 
