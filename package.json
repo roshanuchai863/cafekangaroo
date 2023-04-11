@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@cognativ/native-alert": "^0.0.1",
     "@expo/webpack-config": "^18.0.1",
     "@firebase/auth": "^0.22.0",
     "@react-native-firebase/firestore": "^17.4.2",

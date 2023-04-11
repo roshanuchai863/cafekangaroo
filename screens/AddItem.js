@@ -1,8 +1,8 @@
 import { firebaseConfig } from '../config/Config';
 import React, { useState, useEffect } from 'react';
 import { initializeApp } from 'firebase/app';
-import { getAuth } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 
 
@@ -17,8 +17,10 @@ import {
     SafeAreaView,
     TouchableOpacity,
     Button,
-    getDatabase, ref, set
+    getDatabase, set
 } from 'react-native';
+import { getStorage, ref, uploadBytes } from "firebase/storage";
+
 // import database from '@react-native-firebase/database';
 
 
@@ -27,13 +29,42 @@ import {
 export function AddItemScreen(props) {
 
 
-
+    // getting user status and sending image to that specific user id
+    const auth = getAuth();
+    const user = auth.currentUser;
 
     const navigation = useNavigation()
+    const [image, setImage] = useState("")
+
+
 
     const [itemName, setItemName] = useState("")
     const [itemDesc, setItemDesc] = useState("")
     const [itemPrice, setItemPrice] = useState("")
+
+    const handleChange = (e) => {
+        if (e.target.files[0]) {
+            setImage(e.target.files[0])
+        }
+    }
+
+    const submitData = () => {
+
+        const storage = getStorage();
+        //const storageRef = ref(storage, 'image/');
+        const storageRef = ref(storage, `images/` + user.uid + `/product-image/${image.name}`);
+        console.log(user.uid);
+
+        uploadBytes(storageRef, image).then((snapshot) => {
+            console.log('File Success');
+        }).catch((error) => {
+            console.log(error.message);
+        });
+
+
+
+    }
+
 
 
     useEffect(() => {
@@ -52,6 +83,18 @@ export function AddItemScreen(props) {
 
 
         <View style={styles.page}>
+            <View>
+                <input type='file' onChange={handleChange} />
+
+
+
+
+            </View>
+
+
+            <View style={styles.uploadBtn} >
+                <Button title="Upload Image" onPress={() => submitData()} />
+            </View>
 
             <View sytle={styles.itemposition}>
                 <Text sytle={styles.titleName}>Add item</Text>
@@ -156,5 +199,12 @@ const styles = StyleSheet.create({
         borderColor: "#cccccc",
         marginTop: 10,
 
+    },
+
+
+    uploadBtn: {
+        height: 50,
+        marginTop: 20,
+        color: "#cccccc",
     },
 })
