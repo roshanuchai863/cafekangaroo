@@ -10,6 +10,10 @@ import { SignUpScreen } from './screens/SignUp';
 import { SignInScreen } from './screens/SignIn';
 import { SignOutButton } from './components/SignOutButton';
 import { AddItemScreen } from './screens/AddItem';
+import { TabScreen } from './screens/TabScreen';
+import { ProfileScreen } from './screens/ProfileScreen';
+import { AddItem } from './screens/AddItem';
+import { EditScreen } from './screens/EditItem';
 
 
 // firebase modules
@@ -34,8 +38,7 @@ import {
   onSnapshot
 } from 'firebase/firestore'
 import useNavigation from 'use-navigation';
-import { AddItem } from './screens/AddItem';
-import { EditScreen } from './screens/EditItem';
+
 
 
 
