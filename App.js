@@ -142,7 +142,7 @@ export default function App() {
           {(props) => <EditScreen {...props} handler={EditItemScreenNav} authStatus={auth} />}
         </Stack.Screen>
 
-        <Stack.Screen name="Home" options={{ headerRight: () => <SignOutButton title="sign out" /> }} >
+        <Stack.Screen name="Home" options={{ headerRight: () => <SignOutButton title="signout" /> }}>
           {(props) => <HomeScreen {...props} authStatus={auth} add={AddData} data={noteData} />}
         </Stack.Screen>
       </Stack.Navigator>

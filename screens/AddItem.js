@@ -3,9 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { initializeApp } from 'firebase/app';
 import { useNavigation } from "@react-navigation/native";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-
-
-
+import * as ImagePicker from 'expo-image-picker';
 import {
     View,
     Text,
@@ -13,13 +11,14 @@ import {
     StyleSheet,
     TextInput,
     Alert,
+
     Image,
     SafeAreaView,
     TouchableOpacity,
     Button,
     getDatabase, set
 } from 'react-native';
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getStorage, ref, uploadBytes, FirebaseStorage, } from "firebase/storage";
 
 // import database from '@react-native-firebase/database';
 
@@ -42,28 +41,52 @@ export function AddItemScreen(props) {
     const [itemDesc, setItemDesc] = useState("")
     const [itemPrice, setItemPrice] = useState("")
 
-    const handleChange = (e) => {
-        if (e.target.files[0]) {
-            setImage(e.target.files[0])
-        }
-    }
+
 
     const submitData = () => {
 
         const storage = getStorage();
         //const storageRef = ref(storage, 'image/');
         const storageRef = ref(storage, `images/` + user.uid + `/product-image/${image.name}`);
-        console.log(user.uid);
+        console.log(user.uid, image.name);
 
         uploadBytes(storageRef, image).then((snapshot) => {
             console.log('File Success');
+            //displaying upload success msg
+
+            Alert.alert(
+                'Image Uploaded to Successfully', 'hi there', [
+                { text: 'Yes', onPress: () => console.log('Yes Pressed') }]
+            );
+
+
         }).catch((error) => {
             console.log(error.message);
         });
 
 
 
+
+
+
     }
+    let result
+    //select image 
+    const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
+        result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+
+        console.log(result);
+
+        if (!result.canceled) {
+            setImage(result.uri);
+        }
+    };
 
 
 
@@ -83,12 +106,10 @@ export function AddItemScreen(props) {
 
 
         <View style={styles.page}>
-            <View>
-                <input type='file' onChange={handleChange} />
 
-
-
-
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <Button title="Pick an image from camera roll" onPress={pickImage} />
+                {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
             </View>
 
 
@@ -152,6 +173,7 @@ const styles = StyleSheet.create({
         marginRight: 60,
         marginLeft: 60,
         marginTop: 30,
+        alignContent: "center",
     },
 
     input: {
