@@ -1,0 +1,7 @@
+import { View, Text, TextInput, TouchableOpacity, Modal, StyleSheet, Pressable } from 'react-native'
+import { useRoute, useNavigation } from '@react-navigation/native'
+import { useContext, useState } from 'react'
+import { AuthContext } from '../contexts/AuthContext'
+import { DBContext } from '../contexts/DBcontext'
+import { doc, deleteDoc, updateDoc } from 'firebase/firestore'
+import IonIcons from '@expo/vector-icons/Ionicons'

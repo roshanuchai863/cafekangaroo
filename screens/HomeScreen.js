@@ -10,9 +10,6 @@ export function HomeScreen(props) {
     const navigation = useNavigation()
 
 
-
-
-
     const [showModal, setShowModal] = useState(false)
     const [title, setTitle] = useState('')
     const [note, setNote] = useState('')
