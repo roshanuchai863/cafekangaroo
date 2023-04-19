@@ -54,7 +54,7 @@ export function EditScreen(props) {
         <View style={styles.page}>
 
             <View sytle={styles.itemposition}>
-                <Text sytle={styles.titleName}>Add item</Text>
+                <Text sytle={styles.titleName}>Edit item</Text>
 
                 <TextInput
                     style={styles.input}
