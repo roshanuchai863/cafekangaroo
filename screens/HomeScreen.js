@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Modal, TextInput, StyleSheet, FlatList, Button } from "react-native"
+import { View, Text, TouchableOpacity, Modal, TextInput, StyleSheet, FlatList } from "react-native"
 import { useNavigation } from "@react-navigation/native";
 import { useState, useEffect, useContext } from 'react'
 import * as SignOutButton from "../components/SignOutButton";
@@ -68,25 +68,25 @@ export function HomeScreen(props) {
         navigation.navigate("EditItem", data)
     }
 
-    const ListItem = (props) => {
-        return (
-            <View
-                style={styles.listItem}
+    // const ListItem = (props) => {
+    //     return (
+    //         <View
+    //             style={styles.listItem}
 
-            >
-                <TouchableOpacity onPress={
-                    () => ListClickHandler({ id: props.id, itemName: props.itemName, itemPrice: props.itemPrice, itemDes: props.itemDesc })
-                }
-                >
-                    <Text>
-                        {props.itemName}
-                    </Text>
-                </TouchableOpacity>
-                <Image>{props.itemImage}</Image>
-                <Text>{props.itemPrice}</Text>
-            </View>
-        )
-    }
+    //         >
+    //             <TouchableOpacity onPress={
+    //                 () => ListClickHandler({ id: props.id, itemName: props.itemName, itemPrice: props.itemPrice, itemDes: props.itemDesc })
+    //             }
+    //             >
+    //                 <Text>
+    //                     {props.itemName}
+    //                 </Text>
+    //             </TouchableOpacity>
+    //             <Image>{props.itemImage}</Image>
+    //             <Text>{props.itemPrice}</Text>
+    //         </View>
+    //     )
+    // }
 
     const ListItemSeparator = (props) => {
         return (
@@ -96,20 +96,20 @@ export function HomeScreen(props) {
 
 
 
-    // const Additemscreen = () => {
-    //     navigation.navigate('AddItem');
-    //     // navigation.push('AddItem');
-    // }
+    const Additemscreen = () => {
+        navigation.navigate('AddItem');
+        // navigation.push('AddItem');
+    }
 
-    // const editItemScreen = () => {
-    //     navigation.navigate('EditItem');
-    //     // navigation.push('EditItem');
-    // }
+    const editItemScreen = () => {
+        navigation.navigate('EditItem');
+        // navigation.push('EditItem');
+    }
 
     return (
         <View style={styles.screen} >
             {/* modal element */}
-            <Text style={styles.mainfont}>Welcome to Kangaroo Cafe</Text>
+            <Text style={styles.mainfont}>WELCOME!</Text>
             <Modal
                 transparent={false}
                 animationType="slide"
@@ -139,7 +139,7 @@ export function HomeScreen(props) {
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.addButton}
-                            onPress={() => saveItem()}
+                            onPress={() => Additemscreen()}
                         >
                             <Text style={styles.buttonText}>Save</Text>
                         </TouchableOpacity>
@@ -148,25 +148,26 @@ export function HomeScreen(props) {
                 </View>
             </Modal>
             {/* button to open modal */}
-            <TouchableOpacity style={styles.button} onPress={() => setShowModal(true)} >
+            <TouchableOpacity style={styles.button} onPress={() => Additemscreen(true)} >
                 <IonIcons name="add-outline" size={28} color="white" />
             </TouchableOpacity>
             <FlatList
                 data={Item}
                 renderItem={({ item }) => (
-                    <ListItem
-                        itemName={item.itemName}
+                    <ListItem  
                         id={item.id}
-                        price={item.itemPrice}
+                        itemName={item.itemName}
+                        name={item.itemPrice}
                         //itemDesc={item.itemDesc}
-                       //image={item.image}
+                        //image={item.image}
                         handler={ListClickHandler}
                     />
                 )}
                 keyExtractor={item => item.id}
                 ItemSeparatorComponent={ListItemSeparator}
             />
-            {/* <SignOutButton.SignOutButton text="Sign out" />
+
+            <SignOutButton.SignOutButton text="Sign out" />
             < TouchableOpacity
                 onPress={() => Additemscreen()}
             >
@@ -182,7 +183,7 @@ export function HomeScreen(props) {
                 <Text>Edit Item</Text>
 
 
-            </TouchableOpacity> */}
+            </TouchableOpacity>
 
 
         </View >
@@ -195,6 +196,7 @@ export function HomeScreen(props) {
 const styles = StyleSheet.create({
     screen: {
         justifyContent: "center",
+        position: "relative",
     },
     modal: {
         padding: 10,
@@ -205,7 +207,7 @@ const styles = StyleSheet.create({
         backgroundColor: "lightblue",
     },
     mainfont: {
-        fontSize: 50,
+        fontSize: 30,
         color: "#ff0000",
         textAlign: "center",
     },
@@ -226,14 +228,22 @@ const styles = StyleSheet.create({
     },
     button: {
         backgroundColor: "#000000",
-        padding: 5,
-        flex: 1,
+        padding: 10,
+        position: "absolute",
+        top: 10,
+        right: 10,
+        zIndex: 999,
     },
     addButton: {
         padding: 5,
         backgroundColor: "green",
         flex: 1,
     },
+    closeButton: {
+        backgroundColor: "#000000",
+        padding: 10,
+        flex: 1,
+      },
     buttonText: {
         color: "#ffffff",
         fontSize: 12,
@@ -248,8 +258,5 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between"
     },
-    separator: {
-        backgroundColor: '#CCCCCC',
-        height: 2,
-    }
+    
 })

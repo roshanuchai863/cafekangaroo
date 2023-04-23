@@ -55,7 +55,6 @@ export function SignInScreen(props) {
             <Text style={styles.title}>Sign in to your account</Text>
             <View style={styles.inputGroup}>
                 <Text>Email address </Text>
-                <Text>abcd@gmail.com </Text>
 
                 <TextInput
                     style={styles.input}

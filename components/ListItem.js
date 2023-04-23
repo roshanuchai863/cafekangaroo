@@ -9,7 +9,7 @@ export function ListItem( props ) {
         <Pressable onPress={ () => props.handler( data ) }>
             <View style={ styles.item }>
                 <Text style={ styles.item }>{ props.itemName }</Text>
-                
+
             </View>
         </Pressable>
     )

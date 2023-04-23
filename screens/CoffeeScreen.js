@@ -6,14 +6,14 @@ import { DBContext } from '../contexts/DBcontext'
 import { doc, deleteDoc, updateDoc } from 'firebase/firestore'
 import IonIcons from '@expo/vector-icons/Ionicons'
 
-export function NotesScreen( props ) {
+export function CoffeeScreen( props ) {
     const [showModal, setShowModal] = useState(false)
-    const [title, setTitle] = useState('')
-    const [note,setNote] = useState('')
+    const [itemName, setItemName] = useState('')
+    const [itemDesc,setItemDesc] = useState('')
   
     const saveItem = () => {
       setShowModal( false )
-      const itemObj = { itemName: itemName, content: item }
+      const itemObj = { itemName: itemName, itemDesc: itemDesc }
       props.add( itemObj )
     }
     
@@ -31,14 +31,14 @@ export function NotesScreen( props ) {
             <Text style={styles.modalLabel}>Name</Text>
             <TextInput 
               style={styles.modalInput} 
-              value={ title } 
+              value={ itemName } 
               onChangeText={ (val) => setItemName(val)}
             />
             <Text style={styles.modalLabel} >Item</Text>
             <TextInput 
               multiline={true} 
               style={styles.modalInput2} 
-              value={ note }
+              value={ item }
               onChangeText={ (val) => setItem(val) }
             />
             <View style={ styles.buttonsRow }>
