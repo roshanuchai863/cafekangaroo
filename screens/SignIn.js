@@ -66,7 +66,6 @@ export function SignInScreen(props) {
             </View>
             <View style={styles.inputGroup}>
                 <Text>Password</Text>
-                <Text>Password</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="minimum 8 characters "

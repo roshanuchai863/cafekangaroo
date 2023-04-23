@@ -66,7 +66,7 @@ export function AddItemScreen(props) {
                     resolve(xhr.response);
                 };
                 xhr.onerror = function () {
-                    reject(new TypeError("Network request Failed"));
+                    reject(new TypeError("Item request Failed"));
                 }
                 xhr.responseType = "blob";
                 xhr.open("Get", image, true)

@@ -12,7 +12,7 @@ export function TabScreen() {
 
   const HomeScreenOptions = {
     tabBarLabel: "Coffee",
-    tabBarIcon: ({ color }) => <MaterialCommunityIcons name="coffee" color={color} size={28} />,
+    tabBarIcon: ({ color }) => <MaterialCommunityIcons name="cafe-outline" color={color} size={28} />,
     
   }
   

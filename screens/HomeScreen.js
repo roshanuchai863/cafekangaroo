@@ -1,24 +1,58 @@
 import { View, Text, TouchableOpacity, Modal, TextInput, StyleSheet, FlatList, Button } from "react-native"
 import { useNavigation } from "@react-navigation/native";
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import * as SignOutButton from "../components/SignOutButton";
 import React from 'react'
 import { getAuth, signOut } from "firebase/auth";
+import { AuthContext } from "../contexts/AuthContext"
+import { ItemContext } from "../contexts/ItemContext"
+import { addDoc, collection } from "firebase/firestore"
+import { ListItem } from "../components/ListItem"
+import IonIcons from '@expo/vector-icons/Ionicons'
 
 
 export function HomeScreen(props) {
     const navigation = useNavigation()
+    const authStatus = useContext(AuthContext)
+    const item = useContext(NoteContext)
+    const DB = useContext(DBContext)
 
 
-    const [showModal, setShowModal] = useState(false)
-    const [title, setTitle] = useState('')
-    const [note, setNote] = useState('')
+    const [itemName, setItemName] = useState("")
+    const [itemDesc, setItemDesc] = useState("")
+    const [itemPrice, setItemPrice] = useState("")
+    const [image, setImage] = useState("");
 
-    const saveNote = () => {
+    const saveItem = async () => {
         setShowModal(false)
-        const noteObj = { title: title, content: note }
-        props.add(noteObj)
+        const itemObj = { title: title, content: item }
+        // add note to firebase
+        const path = `users/{authStatus.uid}/item`
+      //  const ref = await addDoc(collection(DB, path), itemObj)
+        setTitle(``)
+        setNote(``)
     }
+
+    // //read data from database
+    // useEffect(() => {
+    //     const readData = async () => {
+    //         const docRef = doc(db, "coffee", "xWrwUXqb9IU25TIRRQ27");
+    //         const docSnap = await getDoc(docRef);
+
+    //         if (docSnap.exists()) {
+    //             setImage(docSnap.data().ImageUrl);
+    //             console.log("iamge location:" + (docSnap.data().imageUrl))
+    //             setItemName(docSnap.data().productTitle);
+    //             setItemDesc(docSnap.data().productDesc);
+    //             setItemPrice(docSnap.data().productPrice);
+
+
+    //             console.log(docSnap.data())
+
+    //         }
+    //     }
+    //     readData();
+    // }, [])
 
     useEffect(() => {
         if (!props.authStatus) {
@@ -37,14 +71,15 @@ export function HomeScreen(props) {
 
             >
                 <TouchableOpacity onPress={
-                    () => ListClickHandler({ id: props.id, title: props.title, content: props.content })
+                    () => ListClickHandler({ id: props.id, itemName: props.itemName, itemPrice: props.itemPrice, itemDes: props.itemDesc })
                 }
                 >
                     <Text>
-                        {props.title}
+                        {props.itemName}
                     </Text>
                 </TouchableOpacity>
-                <Text>{props.content}</Text>
+                <Image>{props.itemImage}</Image>
+                <Text>{props.itemPrice}</Text>
             </View>
         )
     }
@@ -72,8 +107,60 @@ export function HomeScreen(props) {
 
 
         <View style={styles.screen} >
-            <Text style={styles.mainfont}>Work in progress......</Text>
+            <Text style={styles.mainfont}>Welcome to Kangaroo Cafe</Text>
 
+            {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+
+            <View sytle={styles.itemposition}>
+                <Text sytle={styles.titleName}>Add item</Text>
+
+                <TextInput
+                    style={styles.input}
+                    placeholder="item name"
+                    value={itemName}
+                    onChangeText={(setItemNames) => setItemName(setItemNames)}
+                >
+                </TextInput>
+            </View>
+
+
+
+
+            
+           
+            {/* <View sytle={styles.itemposition}>
+                <Text sytle={styles.titleName}>Item Description</Text>
+                <TextInput
+                    style={styles.descriptionbox}
+                    placeholder="item Description"
+                    value={itemDesc}
+                    onChangeText={(setItemDescs) => setItemDesc(setItemDescs)}
+                >
+                </TextInput>
+            </View> */}
+
+
+            {/* price */}
+            {/* <View sytle={styles.itemposition}>
+                <Text sytle={styles.titleName}>Items Price</Text>
+                <TextInput
+                    style={styles.input}
+                    placeholder="item Price"
+                    value={itemPrice}
+                    onChangeText={(setItemPrices) => setItemPrice(setItemPrices)}
+                >
+                </TextInput>
+
+            </View> */}
+            
+            {/* <View style={styles.container}>
+
+                <Button title=" Delete " style={styles.buttonContainer} onPress={deleteData} />
+                < Button title=" add " style={styles.buttonContainer} onPress={udpdatename}
+                />
+
+
+            </View> */}
             <SignOutButton.SignOutButton text="Sign out" />
             < TouchableOpacity
                 onPress={() => Additemscreen()}

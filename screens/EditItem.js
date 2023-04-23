@@ -67,19 +67,29 @@ export function EditScreen(props) {
 
     // update function
     const udpdatename = () => {
-
         updateDoc(doc(db, "coffee", "kCbYjEvt8voJfP81iZgJ"), {
+
             productTitle: itemName,
             productDesc: itemDesc,
             productPrice: itemPrice,
+            // readData()
 
-        })
+        });
+
         console.log("success")
+        
     }
 
     const deleteData = () => {
         deleteDoc(doc(db, "coffee", "kCbYjEvt8voJfP81iZgJ"));
         console.log("deleted Successfully")
+        setItemDesc("");
+        setItemName("");
+        setItemPrice("");
+        setImage("");
+        Alert.alert("Deleted Successfully")
+
+        navigation.navigate("Home");
     }
 
 
@@ -90,7 +100,8 @@ export function EditScreen(props) {
             const docSnap = await getDoc(docRef);
 
             if (docSnap.exists()) {
-                setImage(docSnap.data().imageUrl);
+                setImage(docSnap.data().ImageUrl);
+                console.log("iamge location:" + (docSnap.data().imageUrl))
                 setItemName(docSnap.data().productTitle);
                 setItemDesc(docSnap.data().productDesc);
                 setItemPrice(docSnap.data().productPrice);
