@@ -8,7 +8,8 @@ export function ListItem( props ) {
     return (
         <Pressable onPress={ () => props.handler( data ) }>
             <View style={ styles.item }>
-                <Text style={ styles.itemText }>{ props.title }</Text>
+                <Text style={ styles.item }>{ props.itemName }</Text>
+                
             </View>
         </Pressable>
     )

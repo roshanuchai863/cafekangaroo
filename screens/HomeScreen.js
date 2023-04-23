@@ -3,21 +3,24 @@ import { useNavigation } from "@react-navigation/native";
 import { useState, useEffect, useContext } from 'react'
 import * as SignOutButton from "../components/SignOutButton";
 import React from 'react'
-import { getAuth, signOut } from "firebase/auth";
+//import { getAuth, signOut } from "firebase/auth";
 import { AuthContext } from "../contexts/AuthContext"
 import { ItemContext } from "../contexts/ItemContext"
 import { addDoc, collection } from "firebase/firestore"
 import { ListItem } from "../components/ListItem"
 import IonIcons from '@expo/vector-icons/Ionicons'
+import { DBContext } from "../contexts/DBcontext"
+import { ListItemSeparator } from "../components/ListItemSeparator";
+//import { Item } from "react-native-paper/lib/typescript/src/components/Drawer/Drawer";
 
 
 export function HomeScreen(props) {
     const navigation = useNavigation()
     const authStatus = useContext(AuthContext)
-    const item = useContext(NoteContext)
+    const Item = useContext(ItemContext)
     const DB = useContext(DBContext)
 
-
+    const [showModal, setShowModal] = useState(false)
     const [itemName, setItemName] = useState("")
     const [itemDesc, setItemDesc] = useState("")
     const [itemPrice, setItemPrice] = useState("")
@@ -25,12 +28,13 @@ export function HomeScreen(props) {
 
     const saveItem = async () => {
         setShowModal(false)
-        const itemObj = { title: title, content: item }
-        // add note to firebase
+        const itemObj = { title: itemName, content: item }
+        // add item to firebase
         const path = `users/{authStatus.uid}/item`
-      //  const ref = await addDoc(collection(DB, path), itemObj)
-        setTitle(``)
-        setNote(``)
+        const ref = await addDoc(collection(DB, path), itemObj)
+        setItemName(``)
+        setImage(``)
+        setItemPrice(``)
     }
 
     // //read data from database
@@ -61,7 +65,7 @@ export function HomeScreen(props) {
     }, [props.authStatus])
 
     const ListClickHandler = (data) => {
-        navigation.navigate("Detail", data)
+        navigation.navigate("EditItem", data)
     }
 
     const ListItem = (props) => {
@@ -92,76 +96,77 @@ export function HomeScreen(props) {
 
 
 
-    const Additemscreen = () => {
-        navigation.navigate('AddItem');
-        // navigation.push('AddItem');
-    }
+    // const Additemscreen = () => {
+    //     navigation.navigate('AddItem');
+    //     // navigation.push('AddItem');
+    // }
 
-    const editItemScreen = () => {
-        navigation.navigate('EditItem');
-        // navigation.push('EditItem');
-    }
+    // const editItemScreen = () => {
+    //     navigation.navigate('EditItem');
+    //     // navigation.push('EditItem');
+    // }
 
     return (
-
-
-
         <View style={styles.screen} >
+            {/* modal element */}
             <Text style={styles.mainfont}>Welcome to Kangaroo Cafe</Text>
+            <Modal
+                transparent={false}
+                animationType="slide"
+                visible={showModal}
+                onRequestClose={() => setShowModal(false)}
+            >
+                <View style={styles.modal}>
+                    <Text style={styles.modalLabel}>Item</Text>
+                    <TextInput
+                        style={styles.modalInput}
+                        value={itemName}
+                        onChangeText={(val) => setItemName(val)}
+                    />
+                    <Text style={styles.modalLabel} >Description</Text>
+                    <TextInput
+                        multiline={true}
+                        style={styles.modalInput2}
+                        value={itemDesc}
+                        onChangeText={(val) => setItemDesc(val)}
+                    />
+                    <View style={styles.buttonsRow}>
+                        <TouchableOpacity
+                            style={styles.closeButton}
+                            onPress={() => setShowModal(false)}
+                        >
+                            <Text style={styles.buttonText} >Close</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.addButton}
+                            onPress={() => saveItem()}
+                        >
+                            <Text style={styles.buttonText}>Save</Text>
+                        </TouchableOpacity>
+                    </View>
 
-            {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-
-            <View sytle={styles.itemposition}>
-                <Text sytle={styles.titleName}>Add item</Text>
-
-                <TextInput
-                    style={styles.input}
-                    placeholder="item name"
-                    value={itemName}
-                    onChangeText={(setItemNames) => setItemName(setItemNames)}
-                >
-                </TextInput>
-            </View>
-
-
-
-
-            
-           
-            {/* <View sytle={styles.itemposition}>
-                <Text sytle={styles.titleName}>Item Description</Text>
-                <TextInput
-                    style={styles.descriptionbox}
-                    placeholder="item Description"
-                    value={itemDesc}
-                    onChangeText={(setItemDescs) => setItemDesc(setItemDescs)}
-                >
-                </TextInput>
-            </View> */}
-
-
-            {/* price */}
-            {/* <View sytle={styles.itemposition}>
-                <Text sytle={styles.titleName}>Items Price</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="item Price"
-                    value={itemPrice}
-                    onChangeText={(setItemPrices) => setItemPrice(setItemPrices)}
-                >
-                </TextInput>
-
-            </View> */}
-            
-            {/* <View style={styles.container}>
-
-                <Button title=" Delete " style={styles.buttonContainer} onPress={deleteData} />
-                < Button title=" add " style={styles.buttonContainer} onPress={udpdatename}
-                />
-
-
-            </View> */}
-            <SignOutButton.SignOutButton text="Sign out" />
+                </View>
+            </Modal>
+            {/* button to open modal */}
+            <TouchableOpacity style={styles.button} onPress={() => setShowModal(true)} >
+                <IonIcons name="add-outline" size={28} color="white" />
+            </TouchableOpacity>
+            <FlatList
+                data={Item}
+                renderItem={({ item }) => (
+                    <ListItem
+                        itemName={item.itemName}
+                        id={item.id}
+                        price={item.itemPrice}
+                        //itemDesc={item.itemDesc}
+                       //image={item.image}
+                        handler={ListClickHandler}
+                    />
+                )}
+                keyExtractor={item => item.id}
+                ItemSeparatorComponent={ListItemSeparator}
+            />
+            {/* <SignOutButton.SignOutButton text="Sign out" />
             < TouchableOpacity
                 onPress={() => Additemscreen()}
             >
@@ -177,7 +182,7 @@ export function HomeScreen(props) {
                 <Text>Edit Item</Text>
 
 
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
 
         </View >
