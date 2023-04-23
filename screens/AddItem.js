@@ -1,80 +1,48 @@
-import { firebaseConfig } from '../config/Config';
 import React, { useState, useEffect } from 'react';
-import { initializeApp } from 'firebase/app';
 import { useNavigation } from "@react-navigation/native";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import * as ImagePicker from 'expo-image-picker';
+import { firebaseConfig, db, storage } from '../config/Config';
+import { ref, uploadBytes, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { initializeApp } from 'firebase/app';
+
+import * as progress from 'react-native-progress';
+
 import {
     View,
     Text,
-    TouchableHighlight,
     StyleSheet,
     TextInput,
-    Alert,
-
-    Image,
-    SafeAreaView,
-    TouchableOpacity,
     Button,
-    getDatabase, set
+    Alert, Image,
 } from 'react-native';
-import { getStorage, ref, uploadBytes, FirebaseStorage, } from "firebase/storage";
-
-// import database from '@react-native-firebase/database';
-
+import { addDoc, collection } from 'firebase/firestore';
+import { SafeAreaView } from 'react-native';
 
 
 
 export function AddItemScreen(props) {
+    initializeApp(firebaseConfig);
+
 
 
     // getting user status and sending image to that specific user id
     const auth = getAuth();
     const user = auth.currentUser;
 
+
     const navigation = useNavigation()
-    const [image, setImage] = useState("")
-
-
-
     const [itemName, setItemName] = useState("")
     const [itemDesc, setItemDesc] = useState("")
     const [itemPrice, setItemPrice] = useState("")
+    const [imageUrl, setImageUrl] = useState("")
+    const [image, setImage] = useState("");
+    const [progressStatus, setprogressStatus] = useState("")
 
 
-
-    const submitData = () => {
-
-        const storage = getStorage();
-        //const storageRef = ref(storage, 'image/');
-        const storageRef = ref(storage, `images/` + user.uid + `/product-image/${image.name}`);
-        console.log(user.uid, image.name);
-
-        uploadBytes(storageRef, image).then((snapshot) => {
-            console.log('File Success');
-            //displaying upload success msg
-
-            Alert.alert(
-                'Image Uploaded to Successfully', 'hi there', [
-                { text: 'Yes', onPress: () => console.log('Yes Pressed') }]
-            );
-
-
-        }).catch((error) => {
-            console.log(error.message);
-        });
-
-
-
-
-
-
-    }
-    let result
-    //select image 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
-        result = await ImagePicker.launchImageLibraryAsync({
+        let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [4, 3],
@@ -84,9 +52,90 @@ export function AddItemScreen(props) {
         console.log(result);
 
         if (!result.canceled) {
-            setImage(result.uri);
+            setImage(result.assets[0].uri);
+            console.log("image location:" + image)
         }
     };
+
+
+    // upload to firebase effect onclick or onpick select image
+    useEffect(() => {
+        const uploadImage = async () => {
+            const blobImage = await new Promise((resolve, reject) => {
+                var xhr = new XMLHttpRequest();
+
+                xhr.onload = function () {
+                    resolve(xhr.response);
+                };
+                xhr.onerror = function () {
+                    reject(new TypeError("Network request Failed"));
+                }
+                xhr.responseType = "blob";
+                xhr.open("Get", image, true)
+                xhr.send();
+            })
+
+            // Create the file metadata
+
+            const metadata = {
+                contentType: 'image/jpeg'
+            };
+
+            // Upload file and metadata to the object 'images/mountains.jpg'
+            const storageRef = ref(storage, 'images/' + Date.now());
+            const uploadTask = uploadBytesResumable(storageRef, blobImage, metadata);
+
+            // Listen for state changes, errors, and completion of the upload.
+            uploadTask.on('state_changed',
+                (snapshot) => {
+                    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    console.log('Upload is ' + progress + '% done');
+
+                    switch (snapshot.state) {
+                        case 'paused':
+                            console.log('Upload is paused');
+                            break;
+                        case 'running':
+                            console.log('Upload is running');
+                            break;
+                    }
+                },
+                (error) => {
+                    // A full list of error codes is available at
+                    // https://firebase.google.com/docs/storage/web/handle-errors
+                    switch (error.code) {
+                        case 'storage/unauthorized':
+                            // User doesn't have permission to access the object
+                            break;
+                        case 'storage/canceled':
+                            // User canceled the upload
+                            break;
+
+                        // ...
+
+                        case 'storage/unknown':
+                            // Unknown error occurred, inspect error.serverResponse
+                            break;
+                    }
+                },
+                () => {
+                    // Upload completed successfully, now we can get the download URL
+                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                        console.log('File available at', downloadURL);
+                        setImageUrl(downloadURL);
+                        console.log("image source:" + imageUrl);
+                    });
+                }
+            );
+
+        }
+
+        if (image != null) {
+            uploadImage();
+            //setImage(imageUrl)
+        }
+    }, [image]);
 
 
 
@@ -98,24 +147,53 @@ export function AddItemScreen(props) {
 
 
 
-    const pressHandler = () => {
-        navigation.navigate('');
+    const cancelHandler = () => {
+        navigation.navigate("Home");
     }
 
+
+    //read and write to fbdatabase
+    const userinputs = async () => {
+        // condition for empty input field
+        if ((itemDesc && itemName && itemPrice).length < 1) {
+            alert("Input field is empty")
+        }
+        else {
+            const docRef = await addDoc(collection(db, "coffee"), {
+                // ImageUrlLocation: storage,
+                ImageUrl: imageUrl,
+                productTitle: itemName,
+                productDesc: itemDesc,
+                productPrice: itemPrice,
+            });
+            alert("Data Added")
+        }
+
+        //resetting input fields
+        setItemDesc("");
+        setItemName("");
+        setItemPrice("");
+        setImage("");
+
+        Alert.alert("Added ", "Successfully Added",)
+
+
+    }
+
+
     return (
-
-
         <View style={styles.page}>
+            <View>
 
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Button title="Pick an image from camera roll" onPress={pickImage} />
-                {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+                <Button title='Select Image' onPress={pickImage} />
+                {image && <Image source={{ uri: image }} style={{ width: 300, height: 300 }} />}
+                {/* <ImagePreview visible={visible} source={{ uri: 'some-source' }} close={setVisibleToFalse} /> */}
+                {/* <Button title='Upload Image' onPress={uploadImage} /> */}
+
             </View>
 
 
-            <View style={styles.uploadBtn} >
-                <Button title="Upload Image" onPress={() => submitData()} />
-            </View>
+
 
             <View sytle={styles.itemposition}>
                 <Text sytle={styles.titleName}>Add item</Text>
@@ -159,12 +237,12 @@ export function AddItemScreen(props) {
 
             </View>
             <View style={styles.container}>
-
-                <Button title=" Cancel " style={styles.buttonContainer} />
-                <Button title="  Add  " style={styles.buttonContainer} />
+                <Button title=" Cancel " style={styles.buttonContainer} onPress={cancelHandler} />
+                <Button title=" add " style={styles.buttonContainer} onPress={userinputs} />
 
             </View>
-        </View>
+            {/* // </View> */}
+        </View >
     );
 }
 
