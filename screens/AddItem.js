@@ -6,8 +6,6 @@ import { firebaseConfig, db, storage } from '../config/Config';
 import { ref, uploadBytes, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { initializeApp } from 'firebase/app';
 
-import * as progress from 'react-native-progress';
-
 import {
     View,
     Text,
