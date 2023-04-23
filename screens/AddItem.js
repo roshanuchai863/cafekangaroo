@@ -145,8 +145,6 @@ export function AddItemScreen(props) {
         }
     }, [props.authStatus])
 
-
-
     const cancelHandler = () => {
         navigation.navigate("Home");
     }
@@ -281,8 +279,6 @@ const styles = StyleSheet.create({
 
 
     },
-
-
 
     itemposition:
     {
