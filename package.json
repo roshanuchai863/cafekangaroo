@@ -1,0 +1,45 @@
+{
+  "name": "kangaroocafe",
+  "version": "1.0.0",
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "@cognativ/native-alert": "^0.0.1",
+    "@expo/webpack-config": "^18.0.1",
+    "@firebase/auth": "^0.22.0",
+    "@react-native-firebase/firestore": "^17.4.2",
+    "@react-native-firebase/storage": "^17.4.2",
+    "@react-navigation/bottom-tabs": "^6.5.7",
+    "@react-navigation/material-bottom-tabs": "^6.2.15",
+    "@react-navigation/native-stack": "^6.9.12",
+    "@types/react": "~18.0.27",
+    "expo": "~48.0.9",
+    "expo-image-picker": "~14.1.1",
+    "expo-status-bar": "~1.4.4",
+    "firebase": "^9.18.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-native": "0.71.6",
+    "react-native-document-picker": "^8.2.0",
+    "react-native-gesture-handler": "^2.9.0",
+    "react-native-paper": "^5.7.0",
+    "react-native-reanimated": "~2.14.4",
+    "react-native-safe-area-context": "4.5.0",
+    "react-native-screens": "~3.20.0",
+    "react-native-vector-icons": "^9.2.0",
+    "react-native-web": "~0.18.10",
+    "react-navigation": "^4.4.4",
+    "react-router-dom": "^6.10.0",
+    "typescript": "^4.9.4",
+    "use-navigation": "^0.0.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.0"
+  },
+  "private": true
+}
