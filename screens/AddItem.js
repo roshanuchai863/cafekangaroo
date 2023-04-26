@@ -314,3 +314,9 @@ const styles = StyleSheet.create({
         color: "#cccccc",
     },
 })
+    uploadBtn: {
+        height: 50,
+        marginTop: 20,
+        color: "#cccccc",
+    },
+})
