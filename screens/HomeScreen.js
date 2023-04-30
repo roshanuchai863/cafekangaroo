@@ -334,6 +334,10 @@ export function HomeScreen(props) {
     useEffect(() => {
         readDataFile();
     }, []);
+
+
+
+
     return (
         <View style={styles.screen} >
             {/* modal element */}
@@ -380,14 +384,14 @@ export function HomeScreen(props) {
                 <IonIcons name="add-outline" size={28} color="white" />
             </TouchableOpacity>
             <FlatList
-                data={Item}
-                renderItem={({ item }) => (
+                data={coffee}
+                renderItem={({ coffee }) => (
                     <ListItem
                         id={item.id}
                         itemName={item.itemName}
-                        name={item.itemPrice}
-                        //itemDesc={item.itemDesc}
-                        //image={item.image}
+                        itemPrice={item.itemPrice}
+                        itemDesc={item.itemDesc}
+                        image={item.ImageUrl}
                         handler={ListClickHandler}
                     />
                 )}

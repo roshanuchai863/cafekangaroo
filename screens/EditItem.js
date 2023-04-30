@@ -122,20 +122,6 @@ export function EditScreen(props) {
 
         <View style={styles.page}>
 
-
-            {/* 
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-               
-            </View> */}
-
-
-            {/* <View>
-
-                <Button title='upload Image' onPress={uploadImage} />
-
-            </View> */}
-
-
             {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
 
             <View sytle={styles.itemposition}>
