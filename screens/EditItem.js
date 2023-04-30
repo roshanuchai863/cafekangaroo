@@ -24,7 +24,8 @@ import { updateDoc, doc, getDoc, addDoc, deleteDoc } from 'firebase/firestore';
 
 export function EditScreen(props) {
     initializeApp(firebaseConfig);
-
+    const route = useRoute()
+    const { id, title, content, date } = route.params
 
     // getting user status and sending image to that specific user id
     const auth = getAuth();

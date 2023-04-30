@@ -15,6 +15,10 @@ import { ProfileScreen } from './screens/ProfileScreen';
 import { AddItem } from './screens/AddItem';
 import { EditScreen } from './screens/EditItem';
 
+import { AuthContext } from './contexts/AuthContext'
+import { NoteContext } from './contexts/NoteContext';
+import { FBAuthContext } from './contexts/FBAuthContext';
+import { DBContext } from './contexts/DBcontext';
 
 // firebase modules
 import { firebaseConfig } from './config/Config';
@@ -45,7 +49,7 @@ import useNavigation from 'use-navigation';
 const Stack = createNativeStackNavigator();
 
 
-const FBapp = initializeApp(firebaseConfig)
+const FBapp = initializeApp(firebaseConfig);
 const FBauth = getAuth(FBapp)
 const FBdb = getFirestore(FBapp)
 
@@ -53,7 +57,7 @@ export default function App() {
   const [auth, setAuth] = useState()
   const [errorMsg, setErrorMsg] = useState()
   const [noteData, setNoteData] = useState([])
-
+  
   onAuthStateChanged(FBauth, (user) => {
     if (user) {
       setAuth(user)
@@ -129,38 +133,94 @@ export default function App() {
 
 
   return (
+    // <NavigationContainer>
+    //   <Stack.Navigator>
+    //     <Stack.Screen name="Signup">
+    //       {(props) => <SignUpScreen {...props} handler={SignUp} authStatus={auth} />}
+    //     </Stack.Screen>
+    //     <Stack.Screen name="Signin">
+    //       {(props) => <SignInScreen {...props} handler={SignIn} authStatus={auth} />}
+    //     </Stack.Screen>
+
+    //     <Stack.Screen name="AddItem">
+    //       {(props) => <AddItemScreen {...props} handler={AdditemScreen} authStatus={auth} />}
+    //     </Stack.Screen>
+    //     <Stack.Screen name="EditItem">
+    //       {(props) => <EditScreen {...props} handler={EditItemScreenNav} authStatus={auth} />}
+    //     </Stack.Screen>
+
+    //     <Stack.Screen name="Home" options={{ headerRight: () => <SignOutButton title="signout" /> }}>
+    //       {(props) => <HomeScreen {...props} authStatus={auth} />}
+    //     </Stack.Screen>
+    //   </Stack.Navigator>
+
+    //   {/* <Stack.Screen name="Home" options={{ headerShown: false }}>
+    //     {(props) =>
+
+
+    //               <TabScreen {...props} />
+    //               <HomeScreen {...props} authStatus={auth} />
+
+    //     }
+    //   </Stack.Screen> */}
+
+    // </NavigationContainer >
+
+
+
+
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Signup">
-          {(props) => <SignUpScreen {...props} handler={SignUp} authStatus={auth} />}
+          {(props) =>
+            <FBAuthContext.Provider value={FBauth}>
+              <AuthContext.Provider value={auth}>
+                <SignUpScreen {...props} handler={SignUp} />
+              </AuthContext.Provider>
+            </FBAuthContext.Provider>
+          }
         </Stack.Screen>
         <Stack.Screen name="Signin">
-          {(props) => <SignInScreen {...props} handler={SignIn} authStatus={auth} />}
+          {(props) =>
+            <AuthContext.Provider value={auth}>
+              <SignInScreen {...props} handler={SignIn} />
+            </AuthContext.Provider>
+          }
+        </Stack.Screen>
+        <Stack.Screen name="Home" options={{ headerShown: false }}>
+          {(props) =>
+            <FBAuthContext.Provider value={FBauth} >
+              <DBContext.Provider value={FBdb} >
+                <AuthContext.Provider value={auth}>
+                  <NoteContext.Provider value={noteData}>
+                    <TabScreen {...props} />
+                  </NoteContext.Provider>
+                </AuthContext.Provider>
+              </DBContext.Provider>
+            </FBAuthContext.Provider>
+          }
+        </Stack.Screen>
+        <Stack.Screen name="EditIterm">
+          {(props) =>
+            <DBContext.Provider value={FBdb}>
+              <AuthContext.Provider value={auth}>
+                <DetailScreen {...props} />
+              </AuthContext.Provider>
+            </DBContext.Provider>
+          }
         </Stack.Screen>
 
         <Stack.Screen name="AddItem">
-          {(props) => <AddItemScreen {...props} handler={AdditemScreen} authStatus={auth} />}
-        </Stack.Screen>
-        <Stack.Screen name="EditItem">
-          {(props) => <EditScreen {...props} handler={EditItemScreenNav} authStatus={auth} />}
-        </Stack.Screen>
-
-        <Stack.Screen name="Home" options={{ headerRight: () => <SignOutButton title="signout" /> }}>
-          {(props) => <HomeScreen {...props} authStatus={auth} />}
+          {(props) =>
+            <DBContext.Provider value={FBdb}>
+              <AuthContext.Provider value={auth}>
+                <DetailScreen {...props} />
+              </AuthContext.Provider>
+            </DBContext.Provider>
+          }
         </Stack.Screen>
       </Stack.Navigator>
-
-      {/* <Stack.Screen name="Home" options={{ headerShown: false }}>
-        {(props) =>
-         
-            
-                  <TabScreen {...props} />
-                  <HomeScreen {...props} authStatus={auth} />
-               
-        }
-      </Stack.Screen> */}
-
-    </NavigationContainer >
+    </NavigationContainer>
   );
 }
 

@@ -1,15 +1,26 @@
+import { useState } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native'
+import { Image } from 'react-native';
 export function ListItem(props) {
+    const [image, setimage] = useState()
     const data = {
         id: props.id,
-        title: props.title,
-        content: props.content,
-        date: props.date
+        itemName: props.itemName,
+        itemPrice: props.itemPrice,
+        itemDesc: props.itemDesc,
+        image: props.ImageUrl
+
     }
+
+
     return (
-        <Pressable onPress={() => props.handler(data)}>
+        <Pressable onPress={() => props.handler(data())}>
             <View style={styles.item}>
-                <Text style={styles.itemText}>{props.title}</Text>
+
+                {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+                <Text style={styles.itemText}>{props.itemName}</Text>
+                <Text style={styles.itemText}>{props.itemDesc}</Text>
+                <Text style={styles.itemText}>{props.itemPrice}</Text>
             </View>
         </Pressable>
     )

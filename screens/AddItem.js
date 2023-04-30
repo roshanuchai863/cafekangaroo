@@ -138,11 +138,12 @@ export function AddItemScreen(props) {
     }, [image]);
 
 
-    useEffect(() => {
-        if (!props.authStatus) {
-            navigation.reset({ index: 0, routes: [{ name: "Signin" }] })
-        }
-    }, [props.authStatus]);
+    // useEffect(() => {
+    //     if (!props.authStatus) {
+    //         navigation.reset({ index: 0, routes: [{ name: "Signin" }] })
+    //     }
+    // }, [props.authStatus]);
+
 
 
 
